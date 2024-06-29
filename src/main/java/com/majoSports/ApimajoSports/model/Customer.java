@@ -32,6 +32,4 @@ public class Customer implements Serializable {
     @JoinColumn(name = "user_id")
     private User user;
 
-    public Customer(UUID uuid, String name, String email, String cpf, UserType userType) {
-    }
 }

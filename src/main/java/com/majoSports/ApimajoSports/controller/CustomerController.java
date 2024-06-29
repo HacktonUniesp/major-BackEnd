@@ -1,6 +1,5 @@
 package com.majoSports.ApimajoSports.controller;
 
-import com.majoSports.ApimajoSports.model.Customer;
 import com.majoSports.ApimajoSports.model.dtos.CustomerRequest;
 import com.majoSports.ApimajoSports.model.dtos.CustomerResponse;
 import com.majoSports.ApimajoSports.service.CustomerService;

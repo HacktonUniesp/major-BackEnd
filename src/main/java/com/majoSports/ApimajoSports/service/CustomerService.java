@@ -29,11 +29,14 @@ public class CustomerService {
 //                     customerRequest.getUserType()
 //
 //     );
-         Customer customerSaved = customerRepository.save(new Customer(UUID.randomUUID(),
-                 customerRequest.getName(),
-                 customerRequest.getEmail(),
-                 customerRequest.getCpf(),
-                 customerRequest.getUserType()));
+         Customer customerSaved = customerRepository.save(
+                 new Customer(
+                         UUID.randomUUID(),
+                        customerRequest.getName(),
+                        customerRequest.getEmail(),
+                        customerRequest.getCpf(),
+                        customerRequest.getUserType(),
+                         null));
 
         return new CustomerResponse(
              customerSaved.getId(),
