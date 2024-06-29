@@ -16,14 +16,14 @@ public class UserController {
     UserService userService;
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void create(@RequestBody UserRequest userRequest){
-        userService.create(userRequest);
+    public void login(@RequestBody UserRequest userRequest){
+        userService.login(userRequest);
     }
 
     @PutMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void update(@PathVariable UUID id, @RequestBody UserRequest userRequest) {
-        userService.update(id, userRequest);
+//        userService.update(id, userRequest);
     }
 
 }

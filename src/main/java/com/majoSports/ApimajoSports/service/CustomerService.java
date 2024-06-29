@@ -1,11 +1,16 @@
 package com.majoSports.ApimajoSports.service;
 
 import com.majoSports.ApimajoSports.model.Customer;
+import com.majoSports.ApimajoSports.model.User;
 import com.majoSports.ApimajoSports.model.dtos.CustomerRequest;
 import com.majoSports.ApimajoSports.model.dtos.CustomerResponse;
+import com.majoSports.ApimajoSports.model.dtos.UserRequest;
 import com.majoSports.ApimajoSports.repository.CustomerRepository;
+import com.majoSports.ApimajoSports.repository.UserRepository;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -13,22 +18,19 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
+@Log4j2
 @Service
 public class CustomerService {
 
     @Autowired
     CustomerRepository customerRepository;
 
+    @Autowired
+    UserRepository userRepository;
+
     public CustomerResponse create(CustomerRequest customerRequest){
 
-//         Customer customer =
-//             new Customer(UUID.randomUUID(),
-//                     customerRequest.getName(),
-//                     customerRequest.getEmail(),
-//                     customerRequest.getCpf(),
-//                     customerRequest.getUserType()
-//
-//     );
+        log.info("Processando a requisição para cadastro de novo usuario. - {}", customerRequest.getCpf());
          Customer customerSaved = customerRepository.save(
                  new Customer(
                          UUID.randomUUID(),
@@ -37,6 +39,21 @@ public class CustomerService {
                         customerRequest.getCpf(),
                         customerRequest.getUserType(),
                          null));
+
+        log.info("Usuário email={} CPF={} do tipo {} cadastrado com sucesso.",
+                customerRequest.getEmail(),
+                customerRequest.getCpf(),
+                customerRequest.getUserType());
+
+        User userSaved = userRepository.save(
+                new User(
+                        UUID.randomUUID(),
+                        customerRequest.getCpf(),
+                        customerRequest.getPassword(),
+                        null
+                )
+        );
+        log.info("Usuário cpf={} salvo com sucesso.", userSaved.getCpf());
 
         return new CustomerResponse(
              customerSaved.getId(),
@@ -47,6 +64,23 @@ public class CustomerService {
      );
 
  }
+
+    public ResponseEntity<Customer> login(UserRequest userRequest){
+
+        Customer customer = customerRepository.findByCpf(userRequest.getCpf());
+        log.info("user={}",customer);
+
+        if (customer == null){
+            log.info("CPF ou email não encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(customer);
+
+        }else{
+            log.info("CPF {} existe.", customer.getCpf());
+            return ResponseEntity.status(HttpStatus.OK).body(customer);
+        }
+
+    }
+
  public List<CustomerResponse> findAll(){
       return  customerRepository.findAll()
                 .stream()

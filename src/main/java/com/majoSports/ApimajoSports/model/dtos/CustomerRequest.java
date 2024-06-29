@@ -23,5 +23,8 @@ public class CustomerRequest {
 
     private UserType userType;
 
+    private String loginName;
+
+    private String password;
 
 }

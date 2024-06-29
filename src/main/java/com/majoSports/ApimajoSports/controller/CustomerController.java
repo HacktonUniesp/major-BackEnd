@@ -1,10 +1,13 @@
 package com.majoSports.ApimajoSports.controller;
 
+import com.majoSports.ApimajoSports.model.Customer;
 import com.majoSports.ApimajoSports.model.dtos.CustomerRequest;
 import com.majoSports.ApimajoSports.model.dtos.CustomerResponse;
+import com.majoSports.ApimajoSports.model.dtos.UserRequest;
 import com.majoSports.ApimajoSports.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,6 +25,12 @@ public class CustomerController {
     @ResponseStatus(HttpStatus.CREATED)
     public CustomerResponse create(@RequestBody CustomerRequest customerRequest){
        return customerService.create(customerRequest);
+    }
+
+    @PostMapping("/login")
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<Customer> login(@RequestBody UserRequest userRequest){
+        return customerService.login(userRequest);
     }
 
     @GetMapping
